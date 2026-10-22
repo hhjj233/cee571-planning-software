@@ -27,7 +27,7 @@
   --walk: #13976a;
   --violet: #6250d6;
   --orange: #dd5f2a;
-  --vc0: #b4c0ba;
+  --vc0: #2f9e55;
   --vc1: #eec136;
   --vc2: #e9862c;
   --vc3: #d23a2c;
@@ -82,7 +82,7 @@
     --walk: #2bb886;
     --violet: #968aee;
     --orange: #ee7c47;
-    --vc0: #4c5a54;
+    --vc0: #45b86c;
     --vc1: #d8b02c;
     --vc2: #e5843a;
     --vc3: #ec5a4c;
@@ -125,7 +125,7 @@
   --walk: #2bb886;
   --violet: #968aee;
   --orange: #ee7c47;
-  --vc0: #4c5a54;
+  --vc0: #45b86c;
   --vc1: #d8b02c;
   --vc2: #e5843a;
   --vc3: #ec5a4c;
@@ -416,6 +416,11 @@ footer.site-foot { border-top: 1px solid var(--rule); padding-block: 1.4rem 2.5r
 .th-btn .sk { margin-right: 0.35rem; }
 svg .dt-block { fill: var(--ink-3); opacity: 0.42; }
 svg .road-vc { fill: none; stroke-linecap: butt; }
+.demo-bar.city-inputs { background: var(--surface-2); }
+.demo-bar.city-inputs .slider { min-width: 230px; }
+.calc-assume { padding: 0 1rem 0.7rem; font-family: var(--font-display); font-size: 0.9rem; line-height: 1.5; color: var(--ink-2); max-width: 110ch; }
+.calc-assume b { color: var(--ink); }
+.city-table td .swatch { vertical-align: -1px; margin-right: 0.15rem; }
 
 /* four-step */
 svg .fs-tile { fill: var(--block); stroke: var(--rule-2); stroke-width: 1; }
