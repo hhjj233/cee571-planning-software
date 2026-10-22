@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Transportation Planning Software</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Interactive companion to the CEE 571 lecture on transportation planning software: one hypothetical city, five demos.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Overpass:wght@400;600;700;800&family=Overpass+Mono:wght@400;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<nav class="route" aria-label="Lecture sections">
+  <ol>
+    <li><a href="#s-proposals">1 &bull; Two proposals</a></li>
+    <li><a href="#s-four-step">3 &bull; Four steps</a></li>
+    <li><a href="#s-walk">10 &bull; Walking access</a></li>
+    <li><a href="#s-zones">19 &bull; Zone size</a></li>
+    <li><a href="#s-warehouse">27 &bull; Warehouses</a></li>
+  </ol>
+</nav>
+
+<div class="wrap">
+<header class="masthead">
+  <p class="kicker"><span class="shield">CEE 571</span><span>Fall 2026 &bull; Lecture companion</span></p>
+  <h1>Transportation Planning Software</h1>
+  <p class="lede">The slides show what planning software looks like. This page shows what it does underneath: data goes in, a calculation runs, results come out. Every demo uses one hypothetical city, so you can follow a single new development through the model.</p>
+  <p class="note-line"><strong>All numbers are hypothetical teaching values.</strong> They show how a mechanism works, not what will happen in a real place.</p>
+  <nav class="slide-index" aria-label="Jump to the demo for a slide">
+    <span class="label">Jump to a slide</span>
+    <ol>
+      <li><a href="#s-proposals" title="Slide 1: One development, two proposals">1</a></li>
+      <li><a href="#s-four-step" title="Slide 3: The four steps, run once">3</a></li>
+      <li><a href="#s-proposals" title="Slide 6: What a demo should show">6</a></li>
+      <li><a href="#s-four-step" title="Slide 8: Link volumes and centroids">8</a></li>
+      <li><a href="#s-walk" title="Slide 10: Near a stop is not a short walk">10</a></li>
+      <li><a href="#s-four-step" title="Slide 14: Desire lines">14</a></li>
+      <li><a href="#s-four-step" title="Slide 15: The model diagram">15</a></li>
+      <li><a href="#s-zones" title="Slide 19: How big should a zone be?">19</a></li>
+      <li><a href="#s-zones" title="Slide 20: How big should a zone be?">20</a></li>
+      <li><a href="#s-zones" title="Slide 21: Zones, centroids and connectors">21</a></li>
+      <li><a href="#s-zones" title="Slide 22: Zone correspondence">22</a></li>
+      <li><a href="#s-proposals" title="Slide 23: Model, forecast, analyze">23</a></li>
+      <li><a href="#s-walk" title="Slide 25: Reading a GIS map">25</a></li>
+      <li><a href="#s-four-step" title="Slide 26: The demand-modeling sequence">26</a></li>
+      <li><a href="#s-warehouse" title="Slide 27: Nearest warehouse, cheapest system?">27</a></li>
+      <li><a href="#s-walk" title="Slide 28: Isochrones">28</a></li>
+    </ol>
+  </nav>
+</header>
+
+<main>
+
+<!-- ============ 1 ============ -->
+<section class="section" id="s-proposals" aria-labelledby="h-proposals">
+  <div class="sec-head"><span class="exit-tab">Slides 1, 6, 23</span><h2 id="h-proposals">One development, two proposals</h2></div>
+  <div class="prose">
+    <p>A city expects about 1,200 new homes at Eastfield, on its eastern edge. One proposal widens Prairie Road from two lanes to three toward downtown. The other runs the bus every 10 minutes instead of every 30. Before choosing, the city wants to know how people might travel and where problems could appear.</p>
+    <p>The model below describes the people and the network, represents their travel choices, and calculates the same outcomes for every scenario. Pick a scenario, read the comparison table, then open the calculation to see what produced each number.</p>
+  </div>
+  <figure class="demo" id="demo-city">
+    <figcaption>AM peak hour, traffic toward downtown; the animation runs 60 times faster than real time. The picture is drawn from the model&rsquo;s numbers, and it would look just as convincing if the assumptions were wrong. A model earns trust through its inputs, its calculations and checks against observed data.</figcaption>
+  </figure>
+  <details class="think">
+    <summary><svg class="diamond" viewBox="0 0 30 30" aria-hidden="true"><rect x="6" y="6" width="18" height="18" rx="2" transform="rotate(45 15 15)"/><text x="15" y="19.5" text-anchor="middle">?</text></svg>
+      <span><span class="q-label">Pause and think &bull; slide 23</span><span class="q">Scenario C gives the new residents the lowest average trip time. Does that make the wider road the better project?</span><span class="hint"><span class="show">Show answer</span><span class="hide">Hide answer</span></span></span></summary>
+    <p class="a">Not on that evidence alone. The average is dominated by drivers. Scenario D cuts the trip for households without a car by about 10 minutes, and the average hides that group. Costs, safety and long-term effects such as new development along the road are not in this toy model at all. Choosing the measures is part of the analysis.</p>
+  </details>
+  <details class="think">
+    <summary><svg class="diamond" viewBox="0 0 30 30" aria-hidden="true"><rect x="6" y="6" width="18" height="18" rx="2" transform="rotate(45 15 15)"/><text x="15" y="19.5" text-anchor="middle">?</text></svg>
+      <span><span class="q-label">Pause and think &bull; slide 6</span><span class="q">A vendor demo shows smooth animated traffic. What would you ask to see before trusting it?</span><span class="hint"><span class="show">Show answer</span><span class="hide">Hide answer</span></span></span></summary>
+    <p class="a">How the analyst changes an input such as the number of households or the network, runs the model, and compares the result with a reference scenario and with observed counts. Also where assumptions and error messages are recorded. Moving vehicles show how results are displayed, not whether they are right.</p>
+  </details>
+</section>
+
+
+<!-- ============ 3 ============ -->
+<section class="section" id="s-four-step" aria-labelledby="h-four-step">
+  <div class="sec-head"><span class="exit-tab">Slides 3, 8, 14, 15, 26</span><h2 id="h-four-step">The four steps, run once</h2></div>
+  <div class="prose">
+    <p>The traditional four-step process answers four questions in order. How many trips does each zone produce and attract? Which zones do those trips connect? Which mode do travelers use? Which routes carry them? Step through all four on a five-zone version of the city, then click a bridge to trace who uses it.</p>
+  </div>
+  <figure class="demo" id="demo-fourstep">
+    <figcaption>Morning peak hour: person trips in steps 1&ndash;3, vehicles in step 4. The moving dots fly along straight desire lines in steps 2 and 3 and follow the roads in step 4.</figcaption>
+  </figure>
+  <details class="think">
+    <summary><svg class="diamond" viewBox="0 0 30 30" aria-hidden="true"><rect x="6" y="6" width="18" height="18" rx="2" transform="rotate(45 15 15)"/><text x="15" y="19.5" text-anchor="middle">?</text></svg>
+      <span><span class="q-label">Pause and think &bull; slide 14</span><span class="q">One desire line is much thicker than another. Does the road under the thick line carry more traffic?</span><span class="hint"><span class="show">Show answer</span><span class="hide">Hide answer</span></span></span></summary>
+    <p class="a">No. A desire line joins two zones for display. Its trips may use several routes, and one road can carry trips from many origin&ndash;destination pairs. Compare the thick Riverside&ndash;Downtown line in step 2 with the roads in step 4.</p>
+  </details>
+  <details class="think">
+    <summary><svg class="diamond" viewBox="0 0 30 30" aria-hidden="true"><rect x="6" y="6" width="18" height="18" rx="2" transform="rotate(45 15 15)"/><text x="15" y="19.5" text-anchor="middle">?</text></svg>
+      <span><span class="q-label">Pause and think &bull; slide 15</span><span class="q">We add a road to the network and leave the demand assumptions unchanged. What have we tested?</span><span class="hint"><span class="show">Show answer</span><span class="hide">Hide answer</span></span></span></summary>
+    <p class="a">How that network change affects the demand already represented in the model. We have not forecast new development or every long-term response; those need further assumptions and model components.</p>
+  </details>
+  <details class="think">
+    <summary><svg class="diamond" viewBox="0 0 30 30" aria-hidden="true"><rect x="6" y="6" width="18" height="18" rx="2" transform="rotate(45 15 15)"/><text x="15" y="19.5" text-anchor="middle">?</text></svg>
+      <span><span class="q-label">Pause and think &bull; slide 3</span><span class="q">How does selected-link analysis differ from subarea modeling?</span><span class="hint"><span class="show">Show answer</span><span class="hide">Hide answer</span></span></span></summary>
+    <p class="a">Selected-link analysis traces a subset of trips: those whose paths use one link, such as a bridge. Subarea modeling cuts a smaller geographic area out of a larger network and needs consistent traffic entering and leaving its boundary.</p>
+  </details>
+</section>
+
+
+
+
+<!-- ============ 10 ============ -->
+<section class="section" id="s-walk" aria-labelledby="h-walk">
+  <div class="sec-head"><span class="exit-tab">Slides 10, 25, 28</span><h2 id="h-walk">Near a stop is not a short walk</h2></div>
+  <div class="prose">
+    <p>A buffer marks everything within a straight-line distance of a stop. People walk on streets, and a highway with one footbridge can turn 100 meters on the map into a 900-meter walk. The walking view is also how an isochrone is built: a boundary of equal travel time from one place.</p>
+  </div>
+  <figure class="demo" id="demo-buffer">
+    <figcaption>Streets every 100 m. Walking distance follows streets and footbridges only. Press &ldquo;Walk outward from the stop&rdquo; to grow the 400 m walking area step by step.</figcaption>
+  </figure>
+  <details class="think">
+    <summary><svg class="diamond" viewBox="0 0 30 30" aria-hidden="true"><rect x="6" y="6" width="18" height="18" rx="2" transform="rotate(45 15 15)"/><text x="15" y="19.5" text-anchor="middle">?</text></svg>
+      <span><span class="q-label">Pause and think &bull; slide 10</span><span class="q">A new stop&rsquo;s buffer overlaps an existing stop&rsquo;s buffer. Do we know how many new riders the new stop will attract?</span><span class="hint"><span class="show">Show answer</span><span class="hide">Hide answer</span></span></span></summary>
+    <p class="a">No. The overlap describes coverage. Ridership also depends on the people and activities in the area, the service provided and the alternatives travelers have.</p>
+  </details>
+  <details class="think">
+    <summary><svg class="diamond" viewBox="0 0 30 30" aria-hidden="true"><rect x="6" y="6" width="18" height="18" rx="2" transform="rotate(45 15 15)"/><text x="15" y="19.5" text-anchor="middle">?</text></svg>
+      <span><span class="q-label">Pause and think &bull; slide 25</span><span class="q">A neighborhood shows low transit use on a mode-share map. Can the map tell us why?</span><span class="hint"><span class="show">Show answer</span><span class="hide">Hide answer</span></span></span></summary>
+    <p class="a">No. We would look at service frequency, destinations, walking access and car ownership. Maps help us find patterns and form questions; data and a suitable model test them.</p>
+  </details>
+</section>
+
+
+
+<!-- ============ 19 ============ -->
+<section class="section" id="s-zones" aria-labelledby="h-zones">
+  <div class="sec-head"><span class="exit-tab">Slides 19&ndash;22</span><h2 id="h-zones">How big should a zone be?</h2></div>
+  <div class="prose">
+    <p>Zones group homes and jobs so the model can count trips between areas. Large zones keep trip tables small but give every home in a zone the same access. Small zones show local differences, and every full trip table grows with the square of the number of zones.</p>
+  </div>
+  <figure class="demo" id="demo-zones">
+    <figcaption>A 1.6 km square with a street every 200 m. Orange lines are macrozone edges and green lines are microzone edges, as on slides 19 and 20. Crosses mark each zone&rsquo;s centroid, weighted by homes.</figcaption>
+  </figure>
+  <details class="think">
+    <summary><svg class="diamond" viewBox="0 0 30 30" aria-hidden="true"><rect x="6" y="6" width="18" height="18" rx="2" transform="rotate(45 15 15)"/><text x="15" y="19.5" text-anchor="middle">?</text></svg>
+      <span><span class="q-label">Pause and think &bull; slide 20</span><span class="q">We split every zone into smaller ones. What else must change?</span><span class="hint"><span class="show">Show answer</span><span class="hide">Hide answer</span></span></span></summary>
+    <p class="a">Households and jobs must be allocated to the new zones, zone numbers updated, centroid connectors added, and trip tables and skims rebuilt. New boundaries alone change nothing in the model&rsquo;s data.</p>
+  </details>
+  <details class="think">
+    <summary><svg class="diamond" viewBox="0 0 30 30" aria-hidden="true"><rect x="6" y="6" width="18" height="18" rx="2" transform="rotate(45 15 15)"/><text x="15" y="19.5" text-anchor="middle">?</text></svg>
+      <span><span class="q-label">Pause and think &bull; slide 21</span><span class="q">A centroid connector for a neighborhood is placed on the far side of a river. The zone&rsquo;s trip total is correct. What goes wrong?</span><span class="hint"><span class="show">Show answer</span><span class="hide">Hide answer</span></span></span></summary>
+    <p class="a">The trips enter the network in the wrong place, so shortest paths and link volumes become unrealistic even though the totals are right. The connection structure deserves the same care as the boundary.</p>
+  </details>
+</section>
+
+<!-- ============ 27 ============ -->
+<section class="section" id="s-warehouse" aria-labelledby="h-warehouse">
+  <div class="sec-head"><span class="exit-tab">Slide 27</span><h2 id="h-warehouse">Nearest warehouse, cheapest system?</h2></div>
+  <div class="prose">
+    <p>Planning software also solves logistics problems. In a distribution problem, warehouses are sources and stores are sinks. Sending each store to its nearest warehouse ignores capacity; the cheapest plan looks at all stores and all limits together.</p>
+  </div>
+  <figure class="demo" id="demo-warehouse">
+    <figcaption>Cost = distance &times; units &times; a fixed rate, and each store is served by one warehouse. Vehicle routing, the order in which a truck visits its stops, is a separate problem.</figcaption>
+  </figure>
+  <details class="think">
+    <summary><svg class="diamond" viewBox="0 0 30 30" aria-hidden="true"><rect x="6" y="6" width="18" height="18" rx="2" transform="rotate(45 15 15)"/><text x="15" y="19.5" text-anchor="middle">?</text></svg>
+      <span><span class="q-label">Pause and think &bull; slide 27</span><span class="q">If each store is assigned to its nearest warehouse, must the whole system have the lowest total cost?</span><span class="hint"><span class="show">Show answer</span><span class="hide">Hide answer</span></span></span></summary>
+    <p class="a">No. A nearby warehouse may have limited capacity, and which store moves elsewhere changes the total. The lowest-cost plan depends on the complete set of constraints and on how cost is defined.</p>
+  </details>
+</section>
+
+
+
+
+
+</main>
+
+<footer class="site-foot">
+  <span>CEE 571 &bull; Fall 2026 &bull; Companion to the lecture &ldquo;Transportation Planning Software&rdquo;</span>
+  <span>All examples are hypothetical teaching values.</span>
+</footer>
+</div>
+
+<script src="assets/js/common.js"></script>
+<script src="assets/js/demo-city.js"></script>
+<script src="assets/js/demo-fourstep.js"></script>
+<script src="assets/js/demo-buffer.js"></script>
+<script src="assets/js/demo-zones.js"></script>
+<script src="assets/js/demo-warehouse.js"></script>
+</body>
+</html>
