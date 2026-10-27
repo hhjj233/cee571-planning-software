@@ -10,6 +10,7 @@ Every demo uses one hypothetical city (the Eastfield development on Prairie Road
 | Near a stop is not a short walk | 10, 25, 28 | Straight-line buffer versus walking distance on the street network; add a footbridge |
 | How big should a zone be? | 19–22 | Macrozones and microzones, intrazonal trips, access error, trip-table size |
 | Nearest warehouse, cheapest system? | 27 | Capacity-constrained warehouse-to-store allocation |
+| Solving the doubly constrained gravity model (Oct 27 lecture) | 23 | Step through the B<sub>i</sub> / D<sub>j</sub> iteration for a two-zone example; edit P, a and distances |
 
 All numbers are hypothetical teaching values.
 

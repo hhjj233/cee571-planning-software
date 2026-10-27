@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Transportation Planning Software</title>
 <meta name="claude:viewport-fit-sides" content="cover">
-<meta name="description" content="Interactive companion to the CEE 571 lecture on transportation planning software: one hypothetical city, five demos.">
+<meta name="description" content="Interactive companion to the CEE 571 lectures on transportation planning software and the gravity model: one hypothetical city, six demos.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Overpass:wght@400;600;700;800&family=Overpass+Mono:wght@400;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap">
@@ -20,6 +20,7 @@
     <li><a href="#s-walk">10 &bull; Walking access</a></li>
     <li><a href="#s-zones">19 &bull; Zone size</a></li>
     <li><a href="#s-warehouse">27 &bull; Warehouses</a></li>
+    <li><a href="#s-gravity">Oct 27 &bull; Gravity model</a></li>
   </ol>
 </nav>
 
@@ -27,10 +28,10 @@
 <header class="masthead">
   <p class="kicker"><span class="shield">CEE 571</span><span>Fall 2026 &bull; Lecture companion</span></p>
   <h1>Transportation Planning Software</h1>
-  <p class="lede">The slides show what planning software looks like. This page shows what it does underneath: data goes in, a calculation runs, results come out. Every demo uses one hypothetical city, so you can follow a single new development through the model.</p>
+  <p class="lede">The slides show what planning software looks like. This page shows what it does underneath: data goes in, a calculation runs, results come out. Every demo uses one hypothetical city, so you can follow a single new development through the model. The last section goes with the Oct 27 lecture on the gravity model.</p>
   <p class="note-line"><strong>All numbers are hypothetical teaching values.</strong> They show how a mechanism works, not what will happen in a real place.</p>
   <nav class="slide-index" aria-label="Jump to the demo for a slide">
-    <span class="label">Jump to a slide</span>
+    <span class="label">Planning software lecture: jump to a slide</span>
     <ol>
       <li><a href="#s-proposals" title="Slide 1: One development, two proposals">1</a></li>
       <li><a href="#s-four-step" title="Slide 3: The four steps, run once">3</a></li>
@@ -48,6 +49,10 @@
       <li><a href="#s-four-step" title="Slide 26: The demand-modeling sequence">26</a></li>
       <li><a href="#s-warehouse" title="Slide 27: Nearest warehouse, cheapest system?">27</a></li>
       <li><a href="#s-walk" title="Slide 28: Isochrones">28</a></li>
+    </ol>
+    <span class="label">Oct 27 lecture: trip distribution</span>
+    <ol>
+      <li><a href="#s-gravity" title="Slide 23: Solving the doubly constrained gravity model">23</a></li>
     </ol>
   </nav>
 </header>
@@ -166,14 +171,37 @@
   </details>
 </section>
 
-
-
-
+<!-- ============ Oct 27 lecture: gravity model, slide 23 ============ -->
+<section class="section" id="s-gravity" aria-labelledby="h-gravity">
+  <div class="sec-head"><span class="exit-tab">Oct 27 lecture &bull; Slide 23</span><h2 id="h-gravity">Solving the doubly constrained gravity model</h2></div>
+  <div class="prose">
+    <p>The doubly constrained gravity model sets <i>t</i><sub>ij</sub> = <i>B</i><sub>i</sub> <i>D</i><sub>j</sub> <i>P</i><sub>i</sub> <i>a</i><sub>j</sub> <i>f</i><sub>ij</sub>. Every row must add up to its productions <i>P</i><sub>i</sub> and every column to its attractions <i>a</i><sub>j</sub>. <i>B</i><sub>i</sub> fixes the rows and <i>D</i><sub>j</sub> fixes the columns, but each formula contains the other unknown, so we solve by iteration: start with every <i>D</i><sub>j</sub> = 1, compute <i>B</i><sub>i</sub>, then <i>D</i><sub>j</sub>, and repeat.</p>
+    <p>This is Example 1 from the slide: two zones, four unknowns. Eastfield (zone 1) is mostly homes and Downtown (zone 2) mostly jobs. Press <strong>Next step</strong> and check each number by hand.</p>
+  </div>
+  <figure class="demo" id="demo-gravity">
+    <figcaption>Friction factors <i>f</i><sub>ij</sub> = <i>d</i><sub>ij</sub><sup>&minus;2</sup>, as on slide 19. Edit any input and the iteration restarts from <i>D</i><sub>j</sub> = 1. Values are rounded for display; the calculation keeps full precision.</figcaption>
+  </figure>
+  <details class="think">
+    <summary><svg class="diamond" viewBox="0 0 30 30" aria-hidden="true"><rect x="6" y="6" width="18" height="18" rx="2" transform="rotate(45 15 15)"/><text x="15" y="19.5" text-anchor="middle">?</text></svg>
+      <span><span class="q-label">Pause and think &bull; slide 23</span><span class="q">After the first step, with every <i>D</i><sub>j</sub> = 1, which constraint holds and which fails?</span><span class="hint"><span class="show">Show answer</span><span class="hide">Hide answer</span></span></span></summary>
+    <p class="a">The rows hold. With <i>D</i><sub>j</sub> = 1 the model is the singly constrained gravity model, which always matches the productions. The columns generally miss the attractions, and <i>D</i><sub>j</sub> exists to fix them.</p>
+  </details>
+  <details class="think">
+    <summary><svg class="diamond" viewBox="0 0 30 30" aria-hidden="true"><rect x="6" y="6" width="18" height="18" rx="2" transform="rotate(45 15 15)"/><text x="15" y="19.5" text-anchor="middle">?</text></svg>
+      <span><span class="q-label">Pause and think &bull; slide 23</span><span class="q">Double every <i>B</i><sub>i</sub> and halve every <i>D</i><sub>j</sub>. What happens to the trip table?</span><span class="hint"><span class="show">Show answer</span><span class="hide">Hide answer</span></span></span></summary>
+    <p class="a">Nothing. Each <i>t</i><sub>ij</sub> depends only on the product <i>B</i><sub>i</sub><i>D</i><sub>j</sub>, so the trip table is unique while <i>B</i> and <i>D</i> are fixed only up to a common factor. Starting from <i>D</i><sub>j</sub> = 1 picks one of those solutions. For the same reason, when total productions equal total attractions only three of the four equations in Example 1 are independent.</p>
+  </details>
+  <details class="think">
+    <summary><svg class="diamond" viewBox="0 0 30 30" aria-hidden="true"><rect x="6" y="6" width="18" height="18" rx="2" transform="rotate(45 15 15)"/><text x="15" y="19.5" text-anchor="middle">?</text></svg>
+      <span><span class="q-label">Pause and think &bull; slide 23</span><span class="q">Madison has about 1,000 zones (2,000 unknowns) and Chicago about 33,000 (66,000 unknowns). Why iterate instead of solving the equations directly?</span><span class="hint"><span class="show">Show answer</span><span class="hide">Hide answer</span></span></span></summary>
+    <p class="a">The equations are nonlinear, because <i>B</i> and <i>D</i> multiply each other. One round of this procedure needs only one pass over the trip table, about <i>n</i><sup>2</sup> multiplications, which a computer handles easily even at <i>n</i> = 33,000, and it usually settles within a few dozen rounds.</p>
+  </details>
+</section>
 
 </main>
 
 <footer class="site-foot">
-  <span>CEE 571 &bull; Fall 2026 &bull; Companion to the lecture &ldquo;Transportation Planning Software&rdquo;</span>
+  <span>CEE 571 &bull; Fall 2026 &bull; Companion to the lectures &ldquo;Transportation Planning Software&rdquo; and &ldquo;Trip Distribution: Gravity Model&rdquo;</span>
   <span>All examples are hypothetical teaching values.</span>
 </footer>
 </div>
@@ -184,5 +212,6 @@
 <script src="assets/js/demo-buffer.js"></script>
 <script src="assets/js/demo-zones.js"></script>
 <script src="assets/js/demo-warehouse.js"></script>
+<script src="assets/js/demo-gravity.js"></script>
 </body>
 </html>
