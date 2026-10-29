@@ -538,6 +538,71 @@ svg .gm-bar.cur { fill: var(--sign); }
 svg .gm-grid { stroke: var(--rule); stroke-width: 1; }
 .slide-index .label + ol + .label { margin-top: 0.35rem; }
 
+/* growth factor methods (Oct 29 lecture) */
+/* stacked superscript over subscript, e.g. t^b_ij; an inline-block sits on the baseline of its last line (the subscript) */
+.ss {
+  display: inline-block; vertical-align: -0.45em; margin-left: 0.06em; text-align: left;
+  font-size: 0.7em; line-height: 1; font-style: normal; text-transform: none; letter-spacing: 0;
+}
+.ss > sup, .ss > sub { display: block; font-size: 1em; line-height: 1; vertical-align: baseline; position: static; }
+.prose ul.gf-rules { margin: 0; padding-left: 1.25rem; display: grid; gap: 0.3rem; }
+.nowrap { white-space: nowrap; }
+.gf-inputs {
+  display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 0.9rem 1.8rem; align-items: start;
+  padding: 0.85rem 1rem 0.95rem; background: var(--surface-2); border-bottom: 1px solid var(--rule);
+}
+@media (max-width: 860px) { .gf-inputs { grid-template-columns: minmax(0, 1fr); } }
+.gf-inputs table.gf-in-table { width: auto; }
+.gf-in-table th, .gf-in-table td { padding: 0.28rem 0.4rem 0.2rem; border-bottom-color: var(--rule-2); }
+.gf-inputs table.data th:first-child { padding-left: 0.1rem; }
+.gf-inputs table.data th:last-child, .gf-inputs table.data td:last-child { padding-right: 0.1rem; }
+.gf-in-table input {
+  width: 3.9rem; padding: 0.32rem 0.4rem 0.22rem; border: 1px solid var(--rule-2); border-radius: 6px; text-align: right;
+  background: var(--surface); color: var(--ink); font-family: var(--font-display); font-variant-numeric: tabular-nums;
+}
+.gf-in-table td.is-sel input { border-color: var(--sign); box-shadow: 0 0 0 2px var(--sign); }
+.gf-in-table td.gf-calc { color: var(--ink-2); }
+.gf-in-table td.gf-fac.is-sel { color: var(--ink); font-weight: 700; background: var(--sign-soft); border-radius: 5px; }
+.gf-in-table tr.gf-sum-row th, .gf-in-table tr.gf-sum-row td { border-top: 1px solid var(--rule-2); }
+.gf-side { display: grid; gap: 0.55rem; max-width: 46ch; }
+.gf-side p { font-family: var(--font-display); font-size: 0.9rem; line-height: 1.5; color: var(--ink-2); }
+.gf-side p.gf-totals { display: flex; flex-wrap: wrap; gap: 0.4rem 0.5rem; color: var(--ink); font-variant-numeric: tabular-nums; }
+.gf-totals > span { padding: 0.25rem 0.5rem 0.15rem; border-radius: 5px; background: var(--surface); border: 1px solid var(--rule); }
+.gf-table td.gf-td { padding: 0.18rem 0.15rem; }
+.gf-cell {
+  all: unset; box-sizing: border-box; display: grid; justify-items: end; gap: 0.05rem; width: 100%; min-width: 4.1rem;
+  padding: 0.3rem 0.45rem 0.22rem; border-radius: 6px; cursor: pointer; font-variant-numeric: tabular-nums;
+}
+.gf-cell:hover { background: var(--surface-2); }
+.gf-cell:focus-visible { outline: 3px solid var(--warn); outline-offset: 1px; }
+.gf-td.is-sel .gf-cell { background: var(--sign-soft); box-shadow: inset 0 0 0 2px var(--sign); }
+.gf-val { font-weight: 700; color: var(--ink); }
+.gf-mult { font-size: 0.74rem; color: var(--ink-3); }
+.gf-mult.down { color: var(--vc3); }
+.gf-totc { display: inline-grid; justify-items: end; gap: 0.15rem; }
+.gf-totc .chip { margin-left: 0; }
+@keyframes gf-flash { from { background: color-mix(in srgb, var(--warn) 38%, transparent); } to { background: transparent; } }
+.gf-flash .gf-td:not(.is-sel) .gf-cell { animation: gf-flash 0.9s ease-out; }
+@media (prefers-reduced-motion: reduce) { .gf-flash .gf-td .gf-cell { animation: none; } }
+.gf-trio { display: inline-flex; gap: 0.8em; }
+.gf-zn { display: block; }
+.gf-right { display: grid; align-content: start; min-width: 0; }
+.gf-right > .panel + .panel { border-top: 1px solid var(--rule); }
+.gf-log-panel { border-top: 1px solid var(--rule); }
+.gf-log-panel table.gf-log { width: auto; }
+.gf-log-panel table.gf-log th, .gf-log-panel table.gf-log td { padding-inline: 0.7rem; }
+.gf-legend { display: flex; flex-wrap: wrap; gap: 0.3rem 1.1rem; font-family: var(--font-display); font-size: 0.86rem; color: var(--ink-2); }
+.gf-legend .item { display: inline-flex; align-items: center; gap: 0.45rem; }
+.gf-legend .item.cur { color: var(--ink); font-weight: 700; }
+.gf-key { display: inline-block; width: 1.4rem; height: 4px; border-radius: 2px; }
+.gf-key-uniform { background: var(--ink-3); } .gf-key-average { background: var(--orange); } .gf-key-fratar { background: var(--bus); }
+svg .gf-line { fill: none; stroke-width: 1.75; opacity: 0.45; stroke-linejoin: round; stroke-linecap: round; }
+svg .gf-line.cur { stroke-width: 3.2; opacity: 1; }
+svg .gf-line.gf-ext { stroke-dasharray: 5 6; }
+svg .gf-uniform { stroke: var(--ink-3); } svg .gf-average { stroke: var(--orange); } svg .gf-fratar { stroke: var(--bus); }
+svg .gf-dot { stroke: var(--surface); stroke-width: 1.5; }
+svg .gf-fill-uniform { fill: var(--ink-3); } svg .gf-fill-average { fill: var(--orange); } svg .gf-fill-fratar { fill: var(--bus); }
+
 @media print {
   .route, .demo-bar .play { display: none !important; }
   body { background: #fff; }

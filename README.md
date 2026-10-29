@@ -1,6 +1,6 @@
 # Transportation Planning Software: interactive lecture companion
 
-Companion web page for the CEE 571 (Fall 2026) lecture *Transportation Planning Software*.
+Companion web page for the CEE 571 (Fall 2026) lectures *Transportation Planning Software*, *Trip Distribution: Gravity Model* (Oct 27) and *Gravity Model and Growth Factor Model* (Oct 29).
 Every demo uses one hypothetical city (the Eastfield development on Prairie Road) and is tied to the slides it supports.
 
 | Section | Slides | What you can do |
@@ -11,6 +11,7 @@ Every demo uses one hypothetical city (the Eastfield development on Prairie Road
 | How big should a zone be? | 19–22 | Macrozones and microzones, intrazonal trips, access error, trip-table size |
 | Nearest warehouse, cheapest system? | 27 | Capacity-constrained warehouse-to-store allocation |
 | Solving the doubly constrained gravity model (Oct 27 lecture) | 23 | Step through the B<sub>i</sub> / D<sub>j</sub> iteration for a two-zone example; edit P, a and distances |
+| Growing an old trip table: uniform, average, Fratar (Oct 29 lecture) | 13–18 | Grow a three-zone 2026 trip table to 2028 with each method; step through the passes, click a cell to see its calculation, edit the base table and the 2028 targets |
 
 All numbers are hypothetical teaching values.
 

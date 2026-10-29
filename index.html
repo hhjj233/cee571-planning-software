@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Transportation Planning Software</title>
 <meta name="claude:viewport-fit-sides" content="cover">
-<meta name="description" content="Interactive companion to the CEE 571 lectures on transportation planning software and the gravity model: one hypothetical city, six demos.">
+<meta name="description" content="Interactive companion to the CEE 571 lectures on transportation planning software, the gravity model and growth factor models: one hypothetical city, seven demos.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Overpass:wght@400;600;700;800&family=Overpass+Mono:wght@400;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap">
@@ -21,6 +21,7 @@
     <li><a href="#s-zones">19 &bull; Zone size</a></li>
     <li><a href="#s-warehouse">27 &bull; Warehouses</a></li>
     <li><a href="#s-gravity">Oct 27 &bull; Gravity model</a></li>
+    <li><a href="#s-growth">Oct 29 &bull; Growth factors</a></li>
   </ol>
 </nav>
 
@@ -28,7 +29,7 @@
 <header class="masthead">
   <p class="kicker"><span class="shield">CEE 571</span><span>Fall 2026 &bull; Lecture companion</span></p>
   <h1>Transportation Planning Software</h1>
-  <p class="lede">The slides show what planning software looks like. This page shows what it does underneath: data goes in, a calculation runs, results come out. Every demo uses one hypothetical city, so you can follow a single new development through the model. The last section goes with the Oct 27 lecture on the gravity model.</p>
+  <p class="lede">The slides show what planning software looks like. This page shows what it does underneath: data goes in, a calculation runs, results come out. Every demo uses one hypothetical city, so you can follow a single new development through the model. The last two sections go with the Oct 27 and Oct 29 lectures on trip distribution: the gravity model and growth factor models.</p>
   <p class="note-line"><strong>All numbers are hypothetical teaching values.</strong> They show how a mechanism works, not what will happen in a real place.</p>
   <nav class="slide-index" aria-label="Jump to the demo for a slide">
     <span class="label">Planning software lecture: jump to a slide</span>
@@ -53,6 +54,15 @@
     <span class="label">Oct 27 lecture: trip distribution</span>
     <ol>
       <li><a href="#s-gravity" title="Slide 23: Solving the doubly constrained gravity model">23</a></li>
+    </ol>
+    <span class="label">Oct 29 lecture: growth factor models</span>
+    <ol>
+      <li><a href="#s-growth" data-gf-method="uniform" title="Slide 13: Uniform method">13</a></li>
+      <li><a href="#s-growth" data-gf-method="average" title="Slide 14: Average method">14</a></li>
+      <li><a href="#s-growth" data-gf-method="fratar" title="Slide 15: Fratar method">15</a></li>
+      <li><a href="#s-growth" data-gf-method="fratar" title="Slide 16: Fratar, when one destination grows">16</a></li>
+      <li><a href="#s-growth" title="Slide 17: Limitations of growth factor models">17</a></li>
+      <li><a href="#s-growth" title="Slide 18: Iterative balancing">18</a></li>
     </ol>
   </nav>
 </header>
@@ -198,10 +208,42 @@
   </details>
 </section>
 
+<!-- ============ Oct 29 lecture: growth factor models, slides 13-18 ============ -->
+<section class="section" id="s-growth" aria-labelledby="h-growth">
+  <div class="sec-head"><span class="exit-tab">Oct 29 lecture &bull; Slides 13&ndash;18</span><h2 id="h-growth">Growing an old trip table: uniform, average, Fratar</h2></div>
+  <div class="prose">
+    <p>A growth factor model does not build a trip table from scratch. It takes an observed base-year table <i>t</i><span class="ss"><sup>b</sup><sub>ij</sub></span>, here from 2026, and multiplies each cell by a growth factor to forecast the horizon year, 2028. Trip generation supplies each zone&rsquo;s 2028 productions <i>P</i><span class="ss"><sup>h</sup><sub>i</sub></span> and attractions <i>a</i><span class="ss"><sup>h</sup><sub>j</sub></span>. The three methods differ only in the factor each cell gets:</p>
+    <ul class="gf-rules">
+      <li><strong>Uniform</strong> (slide 13): one factor for every cell, <span class="nowrap"><i>f</i> = <i>T</i><sup>h</sup> / <i>T</i><sup>b</sup></span>.</li>
+      <li><strong>Average</strong> (slide 14): the average of the origin&rsquo;s and the destination&rsquo;s factors, <span class="nowrap">(<i>f</i><sub>i</sub> + <i>f</i><sub>j</sub>) / 2</span>.</li>
+      <li><strong>Fratar</strong> (slide 15): both factors, <span class="nowrap"><i>f</i><sub>i</sub> &times; <i>f</i><sub>j</sub></span>, scaled back by the location factors, <span class="nowrap">(<i>l</i><sub>i</sub> + <i>l</i><sub>j</sub>) / 2</span>.</li>
+    </ul>
+    <p>In this example Eastfield&rsquo;s new homes double the trips it produces, and new offices raise Downtown&rsquo;s attractions by half; the other totals grow 10 to 20 percent. Pick a method and press <strong>Next pass</strong>. Average and Fratar repeat their rule on the latest table until every total matches (slide 18). Click any cell of the forecast to see how it was calculated.</p>
+  </div>
+  <figure class="demo" id="demo-growth">
+    <figcaption>Rows are origins and columns are destinations. From pass 2 on, the previous pass&rsquo;s table takes the place of <i>t</i><span class="ss"><sup>b</sup><sub>ij</sub></span>, and its row and column totals replace <i>P</i><span class="ss"><sup>b</sup><sub>i</sub></span> and <i>a</i><span class="ss"><sup>b</sup><sub>j</sub></span>. Average and Fratar stop when every total is within 0.5 trips of its target. Values are rounded for display; the calculation keeps full precision.</figcaption>
+  </figure>
+  <details class="think">
+    <summary><svg class="diamond" viewBox="0 0 30 30" aria-hidden="true"><rect x="6" y="6" width="18" height="18" rx="2" transform="rotate(45 15 15)"/><text x="15" y="19.5" text-anchor="middle">?</text></svg>
+      <span><span class="q-label">Pause and think &bull; slides 14&ndash;15</span><span class="q">Why does Fratar settle in two passes when the average method needs seven?</span><span class="hint"><span class="show">Show answer</span><span class="hide">Hide answer</span></span></span></summary>
+    <p class="a">Fratar&rsquo;s location factors do most of the balancing inside each pass. Used alone, <i>l</i><sub>i</sub> would make the trips from zone <i>i</i> add up exactly to <i>P</i><span class="ss"><sup>h</sup><sub>i</sub></span>, and <i>l</i><sub>j</sub> alone would make the trips to zone <i>j</i> add up exactly to <i>a</i><span class="ss"><sup>h</sup><sub>j</sub></span>. Fratar averages the two, so after one pass every total is already within 3 trips. The average method has no such correction: each pass closes only about half of the remaining gap (31.0, 14.9, 7.2, 3.5 trips and so on).</p>
+  </details>
+  <details class="think">
+    <summary><svg class="diamond" viewBox="0 0 30 30" aria-hidden="true"><rect x="6" y="6" width="18" height="18" rx="2" transform="rotate(45 15 15)"/><text x="15" y="19.5" text-anchor="middle">?</text></svg>
+      <span><span class="q-label">Pause and think &bull; slide 16</span><span class="q">Raise Downtown&rsquo;s 2028 productions from 120 to 170 and its attractions from 375 to 425 (both, so the totals still agree). In pass 1, what happens to the trips from Eastfield to Riverside under each method?</span><span class="hint"><span class="show">Show answer</span><span class="hide">Hide answer</span></span></span></summary>
+    <p class="a">Average: nothing. They stay at 31.0, because (<i>f</i><sub>i</sub> + <i>f</i><sub>j</sub>) / 2 looks only at Eastfield and Riverside. Fratar: they fall from 32.9 to 30.2, while Eastfield &rarr; Downtown rises from 152.4 to 157.8. Downtown&rsquo;s larger factors enter the sums inside <i>l</i><sub>i</sub> and <i>l</i><sub>j</sub>, so a more attractive Downtown draws Eastfield&rsquo;s trips away from its other destinations. This is the result on slide 16: when <i>a</i><span class="ss"><sup>h</sup><sub>k</sub></span> rises, <i>t</i><span class="ss"><sup>h</sup><sub>ik</sub></span> rises and <i>t</i><span class="ss"><sup>h</sup><sub>ij</sub></span> falls for every other <i>j</i>.</p>
+  </details>
+  <details class="think">
+    <summary><svg class="diamond" viewBox="0 0 30 30" aria-hidden="true"><rect x="6" y="6" width="18" height="18" rx="2" transform="rotate(45 15 15)"/><text x="15" y="19.5" text-anchor="middle">?</text></svg>
+      <span><span class="q-label">Pause and think &bull; slide 17</span><span class="q">Set the 2026 trips from Eastfield to Riverside to 0. What does each method forecast for 2028?</span><span class="hint"><span class="show">Show answer</span><span class="hide">Hide answer</span></span></span></summary>
+    <p class="a">Zero, under every method, because each one multiplies the base-year number. Average and Fratar make up Eastfield&rsquo;s total by growing its other trips faster. A growth factor model can only expand an existing pattern: it cannot create trips between zones that had none, or for a zone that did not exist. For a large new development, a synthetic model such as the gravity model in the previous section is needed.</p>
+  </details>
+</section>
+
 </main>
 
 <footer class="site-foot">
-  <span>CEE 571 &bull; Fall 2026 &bull; Companion to the lectures &ldquo;Transportation Planning Software&rdquo; and &ldquo;Trip Distribution: Gravity Model&rdquo;</span>
+  <span>CEE 571 &bull; Fall 2026 &bull; Companion to the lectures &ldquo;Transportation Planning Software&rdquo;, &ldquo;Trip Distribution: Gravity Model&rdquo; and &ldquo;Gravity Model and Growth Factor Model&rdquo;</span>
   <span>All examples are hypothetical teaching values.</span>
 </footer>
 </div>
@@ -213,5 +255,6 @@
 <script src="assets/js/demo-zones.js"></script>
 <script src="assets/js/demo-warehouse.js"></script>
 <script src="assets/js/demo-gravity.js"></script>
+<script src="assets/js/demo-growth.js"></script>
 </body>
 </html>
